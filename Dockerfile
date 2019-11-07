@@ -68,6 +68,7 @@ RUN sudo chown -R radu /home
 
 ARG pwd
 RUN echo radu:${pwd} | chpasswd
+RUN sudo usermod -aG docker radu
 USER radu
 
 CMD ["zsh"]
