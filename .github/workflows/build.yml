@@ -19,5 +19,5 @@ jobs:
       - name: Upload filesystem
         uses: actions/upload-artifact@v1
         with:
-          name: fs
+          name: my-custom-fs.tar
           path: output
