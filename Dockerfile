@@ -71,4 +71,8 @@ RUN echo radu:${pwd} | chpasswd
 RUN sudo usermod -aG docker radu
 USER radu
 
+RUN /bin/zsh -c "mkdir -p ~/.zsh && cd ~/.zsh && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git && git clone https://github.com/zsh-users/zsh-autosuggestions"
+COPY zshrc.sh .
+RUN /bin/zsh -c "cat zshrc.sh >> ~/.zshrc"
+
 CMD ["zsh"]
