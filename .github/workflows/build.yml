@@ -13,10 +13,11 @@ jobs:
         run: |
           docker build --build-arg pwd=password -t my-custom-fs .
           docker run --name fs -it -d my-custom-fs
-          docker export --output my-custom-fs.tar fs
+          mkdir output
+          docker export --output output/my-custom-fs.tar fs
 
       - name: Upload filesystem
         uses: actions/upload-artifact@v1
         with:
-          name: my-custom-fs.tar
-          path: .
+          name: fs
+          path: output
