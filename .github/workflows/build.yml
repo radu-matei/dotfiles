@@ -11,7 +11,7 @@ jobs:
 
       - name: Build container image, run container, export filesystem
         run: |
-          docker build -t my-custom-fs .
+          docker build --build-arg pwd=password -t my-custom-fs .
           docker run --name fs -it -d my-custom-fs
           docker export --output my-custom-fs.tar fs
 
