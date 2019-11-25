@@ -1,0 +1,22 @@
+name: Build custom WSL filesystem
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Build container image, run container, export filesystem
+        run: |
+          docker build -t my-custom-fs .
+          docker run --name fs -it -d my-custom-fs
+          docker export --output my-custom-fs.tar fs
+
+      - name: Upload filesystem
+        uses: actions/upload-artifact@v1
+        with:
+          name: custom-wsl-filesystem.tar
+          path: my-custom-fs.tar
