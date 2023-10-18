@@ -20,14 +20,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
-
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -126,6 +119,7 @@ require('lazy').setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'debugloop/telescope-undo.nvim',
       -- Fuzzy Finder Algorithm which requires local dependencies to be built.
       -- Only load if `make` is available. Make sure you have the system
       -- requirements installed.
@@ -154,16 +148,15 @@ require('lazy').setup({
     dependencies =
     'nvim-tree/nvim-web-devicons'
   },
-{
-  "NeogitOrg/neogit",
-  dependencies = {
-    "nvim-lua/plenary.nvim",         -- required
-    "nvim-telescope/telescope.nvim", -- optional
-    "sindrets/diffview.nvim",        -- optional
-    "ibhagwan/fzf-lua",              -- optional
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",         -- required
+      "nvim-telescope/telescope.nvim", -- optional
+      "sindrets/diffview.nvim",        -- optional
+      "ibhagwan/fzf-lua",              -- optional
+    },
   },
-  config = true
-},
   { 'cormacrelf/dark-notify' },
   {
     "folke/noice.nvim",
@@ -171,7 +164,7 @@ require('lazy').setup({
     opts = {
       cmdline = {
         enabled = true,   -- enables the Noice cmdline UI
-        view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+        view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
         opts = {},        -- global options for the cmdline. See section on views
         ---@type table<string, CmdlineFormat>
         format = {
@@ -516,6 +509,7 @@ require('telescope').setup {
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("ui-select")
+require("telescope").load_extension("undo")
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
@@ -754,7 +748,7 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-  capabilities.textDocument.completion.completionItem.snippetSupport = false
+    capabilities.textDocument.completion.completionItem.snippetSupport = false
     require('lspconfig')[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach,
@@ -942,6 +936,10 @@ require('lualine').setup {
   tabline = {},
   extensions = { 'fugitive' }
 }
+local neogit = require('neogit')
+neogit.setup {
+  disable_line_numbers = true,
+}
 -- vim.keymap.set('n', '<leader>c', '<Cmd>BufferClose<CR> ', { desc = '[C]lose Buffer' })
 vim.keymap.set('n', '<leader>q', '[[<C-w>q]] ', { desc = '[Q]uit current window' })
 
@@ -982,6 +980,8 @@ vim.keymap.set('n', '<leader>tt', '<Cmd>TroubleToggle<CR> ', { desc = '[T]oggle 
 
 vim.keymap.set('n', '<leader>u', '<Cmd>Telescope undo<CR>', { desc = "[U]ndo tree" })
 
+
+vim.keymap.set('n', '<leader>gg', '<Cmd>Neogit kind=auto<CR>', { desc = 'Open Neogit' })
 -- Map jj and jk to Escape
 vim.keymap.set('i', 'jk', '<Esc>')
 
@@ -1047,5 +1047,6 @@ vim.cmd [[:command! -nargs=1 Browse silent execute '!open' shellescape(<q-args>,
 vim.cmd [[autocmd User TelescopePreviewerLoaded setlocal number]]
 vim.cmd [[:hi NonText guifg=bg]]
 vim.cmd [[set guicursor=n-v-c-i:block]]
+vim.api.nvim_set_keymap('i', '<S-Del>', '<Nop>', { noremap = true, silent = true })
 
 vim.cmd([[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]])
