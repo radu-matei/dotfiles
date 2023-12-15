@@ -353,6 +353,50 @@ require('lazy').setup({
     end
   },
 
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        panel = {
+          enabled = true,
+          auto_refresh = true,
+        },
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          -- accept = false, -- disable built-in keymapping
+        },
+      })
+
+      -- hide copilot suggestions when cmp menu is open
+      -- to prevent odd behavior/garbled up suggestions
+      local cmp_status_ok, cmp = pcall(require, "cmp")
+      if cmp_status_ok then
+        cmp.event:on("menu_opened", function()
+          vim.b.copilot_suggestion_hidden = true
+        end)
+
+        cmp.event:on("menu_closed", function()
+          vim.b.copilot_suggestion_hidden = false
+        end)
+      end
+
+      -- disable copilot if we are in a private project
+    end,
+  },
+
+  {
+    "gbprod/yanky.nvim",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+
   { 'mfussenegger/nvim-lint' },
 }, {})
 -- [[ Setting options ]]
@@ -1050,3 +1094,11 @@ vim.cmd [[set guicursor=n-v-c-i:block]]
 vim.api.nvim_set_keymap('i', '<S-Del>', '<Nop>', { noremap = true, silent = true })
 
 vim.cmd([[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]])
+
+vim.cmd [[:Copilot disable]]
+
+
+vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
+vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+
+vim.keymap.set({ "n", "x" }, "ys", ":YankyRingHistory<CR>")
