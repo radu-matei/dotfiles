@@ -389,6 +389,18 @@ require('lazy').setup({
   },
 
   {
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require "octo".setup()
+    end
+  },
+
+  {
     "gbprod/yanky.nvim",
     opts = {
       -- your configuration comes here
@@ -396,7 +408,6 @@ require('lazy').setup({
       -- refer to the configuration section below
     },
   },
-
   { 'mfussenegger/nvim-lint' },
 }, {})
 -- [[ Setting options ]]
@@ -482,7 +493,7 @@ require('telescope').setup {
       auto_depth = true,
       select_buffer = true,
       grouped = true,
-      respect_gitignore = true,
+      respect_gitignore = false,
       -- collapse_dirs = true,
       initial_mode = "normal",
       -- theme = "ivy",
