@@ -47,6 +47,7 @@ require('lazy').setup({
     },
   },
 
+  { "FabijanZulj/blame.nvim" },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -93,7 +94,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'gruvbox',
         component_separators = '|',
         section_separators = '',
       },
@@ -111,7 +112,7 @@ require('lazy').setup({
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',        opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -408,6 +409,37 @@ require('lazy').setup({
       -- refer to the configuration section below
     },
   },
+  {
+    "aaronhallaert/advanced-git-search.nvim",
+    config = function()
+      -- optional: setup telescope before loading the extension
+      require("telescope").setup {
+        -- move this to the place where you call the telescope setup function
+        extensions = {
+          advanced_git_search = {
+            diff_plugin = "diffview",
+          }
+        }
+      }
+
+      require("telescope").load_extension("advanced_git_search")
+    end,
+    dependencies = {
+      --- See dependencies
+    },
+  },
+
+  {
+    "tversteeg/registers.nvim",
+    cmd = "Registers",
+    config = true,
+    keys = {
+      { "\"",    mode = { "n", "v" } },
+      { "<C-R>", mode = "i" }
+    },
+    name = "registers",
+  },
+
   { 'mfussenegger/nvim-lint' },
 }, {})
 -- [[ Setting options ]]
@@ -432,7 +464,7 @@ vim.wo.number = true
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
--- vim.o.background = "light"
+vim.o.background = "dark"
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
@@ -522,7 +554,8 @@ require('telescope').setup {
     }
   },
   defaults = {
-    color_devicons = false,
+    color_devicons = true,
+    border = true,
     selection_caret = "» ",
     initial_mode = "insert",
     selection_strategy = "reset",
@@ -544,7 +577,7 @@ require('telescope').setup {
     file_sorter = require("telescope.sorters").get_fuzzy_file,
     file_ignore_patterns = { "node_modules" },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-    path_display = { "truncate" },
+    -- path_display = { "truncate = 3" },
     borderchars = {
       prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
       results = { " " },
@@ -775,12 +808,15 @@ local servers = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
+      diagnostics = {
+        globals = { 'vim' }
+      },
     },
   },
 }
 
 -- Update gutter signs for LSP diagnostics
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -842,31 +878,31 @@ require("lspconfig").gopls.setup({
 -- See `:help cmp`
 local cmp = require 'cmp'
 local kind_icons = {
-  Text = "",
-  Method = "",
-  Function = "",
+  Text = "󰉿",
+  Method = "󰆧",
+  Function = "󰊕",
   Constructor = "",
-  Field = "",
-  Variable = "",
-  Class = "ﴯ",
+  Field = "󰜢",
+  Variable = "󰀫",
+  Class = "󰠱",
   Interface = "",
   Module = "",
-  Property = "ﰠ",
-  Unit = "",
-  Value = "",
+  Property = "󰜢",
+  Unit = "󰑭",
+  Value = "󰎠",
   Enum = "",
-  Keyword = "",
+  Keyword = "󰌋",
   Snippet = "",
-  Color = "",
-  File = "",
-  Reference = "",
-  Folder = "",
+  Color = "󰏘",
+  File = "󰈙",
+  Reference = "󰈇",
+  Folder = "󰉋",
   EnumMember = "",
-  Constant = "",
-  Struct = "",
+  Constant = "󰏿",
+  Struct = "󰙅",
   Event = "",
-  Operator = "",
-  TypeParameter = "",
+  Operator = "󰆕",
+  TypeParameter = "",
 }
 
 

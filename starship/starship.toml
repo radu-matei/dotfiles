@@ -18,6 +18,9 @@ format = '@[$hostname](bold red) '
 trim_at = '.local'
 disabled = false
 
+[gcloud]
+disabled = true
+
 # [memory_usage]
 # disabled = false
 # threshold = -1
@@ -34,6 +37,7 @@ behind = '⇣{count}'
 
 [aws]
 symbol = "  "
+disabled = true
 
 [buf]
 symbol = " "
@@ -86,6 +90,7 @@ symbol = " "
 [kubernetes]
 disabled = false
 # disabled = true
+
 
 [lua]
 symbol = " "
