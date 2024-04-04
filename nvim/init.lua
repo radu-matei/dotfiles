@@ -94,7 +94,8 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'gruvbox',
+        -- theme = 'gruvbox',
+        theme = 'kanagawa',
         component_separators = '|',
         section_separators = '',
       },
@@ -108,6 +109,15 @@ require('lazy').setup({
     -- See `:help indent_blankline.txt`
     main = "ibl",
     opts = {
+    },
+  },
+
+  {
+    "lukas-reineke/headlines.nvim",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true, -- or `opts = {}`
+    org = {
+      headline_highlights = { "Headline1", "Headline2" },
     },
   },
 
@@ -143,6 +153,7 @@ require('lazy').setup({
 
   { 'mrjones2014/smart-splits.nvim' },
   { 'sainnhe/gruvbox-material' },
+  { "rebelot/kanagawa.nvim" },
   {
     'akinsho/bufferline.nvim',
     version = "*",
@@ -492,7 +503,8 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme gruvbox-material]]
+-- vim.cmd [[colorscheme gruvbox-material]]
+vim.cmd [[colorscheme kanagawa]]
 
 -- [[ Basic Keymaps ]]
 
@@ -979,7 +991,8 @@ cmp.setup {
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'gruvbox-material',
+    -- theme = 'gruvbox-material',
+    theme = 'kanagawa',
     -- section_separators = { left = '', right = '' },
     -- component_separators = { left = '', right = '' },
     disabled_filetypes = {}
@@ -1031,6 +1044,60 @@ local neogit = require('neogit')
 neogit.setup {
   disable_line_numbers = true,
 }
+
+
+-- Default options:
+require('kanagawa').setup({
+  compile = false,  -- enable compiling the colorscheme
+  undercurl = true, -- enable undercurls
+  commentStyle = { italic = true },
+  functionStyle = {},
+  keywordStyle = { italic = true },
+  statementStyle = { bold = true },
+  typeStyle = {},
+  transparent = false,   -- do not set background color
+  dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
+  terminalColors = true, -- define vim.g.terminal_color_{0,17}
+  colors = {             -- add/modify theme and palette colors
+    palette = {},
+    theme = {
+      wave = {},
+      lotus = {},
+      dragon = {},
+      all = {
+        ui = {
+          bg_gutter = "none"
+        }
+
+      }
+    },
+  },
+  overrides = function(colors) -- add/modify highlights
+    local theme = colors.theme
+    return {
+      TelescopeTitle = { fg = theme.ui.special, bold = true },
+      TelescopePromptNormal = { bg = theme.ui.bg_p1 },
+      TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_p1 },
+      TelescopeResultsNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
+      TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
+      TelescopePreviewNormal = { bg = theme.ui.bg_dim },
+      TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
+
+      Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
+      PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+      PmenuSbar = { bg = theme.ui.bg_m1 },
+      PmenuThumb = { bg = theme.ui.bg_p2 },
+
+    }
+  end,
+  theme = "wave",  -- Load "wave" theme when 'background' option is not set
+  background = {   -- map the value of 'background' option to a theme
+    dark = "wave", -- try "dragon" !
+    light = "lotus"
+  },
+})
+
+
 -- vim.keymap.set('n', '<leader>c', '<Cmd>BufferClose<CR> ', { desc = '[C]lose Buffer' })
 vim.keymap.set('n', '<leader>q', '[[<C-w>q]] ', { desc = '[Q]uit current window' })
 
@@ -1149,3 +1216,9 @@ vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
 vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
 
 vim.keymap.set({ "n", "x" }, "ys", ":YankyRingHistory<CR>")
+
+
+vim.cmd [[highlight Headline1 guibg=#1e2718]]
+vim.cmd [[highlight Headline2 guibg=#21262d]]
+vim.cmd [[highlight CodeBlock guibg=#1c1c1c]]
+vim.cmd [[highlight Dash guibg=#D19A66 gui=bold]]
