@@ -94,7 +94,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'gruvbox',
+        theme = 'gruvbox-material',
         component_separators = '|',
         section_separators = '',
       },
@@ -255,6 +255,9 @@ require('lazy').setup({
     config = function()
       require('lsp_signature').setup({
         floating_window = true,
+        handler_opts = {
+          border = "none"
+        },
         hint_prefix = '',
         max_height = 30,
         max_width = 140,
@@ -492,6 +495,25 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Set colorscheme
 vim.o.termguicolors = true
+vim.g.gruvbox_material_background = 'hard'
+vim.g.gruvbox_material_foreground = 'mix'
+vim.g.gruvbox_material_cursor = 'orange'
+-- vim.g.gruvbox_material_dim_inactive_windows = 1
+-- vim.g.gruvbox_material_visual = 'reverse'
+vim.g.gruvbox_material_sign_column_background = 'grey'
+vim.g.gruvbox_material_menu_selection_background = 'yellow'
+vim.g.gruvbox_material_float_style = 'dim'
+-- vim.g.gruvbox_material_diagnostic_text_highlight = 1
+-- grpid = vim.api.nvim_create_augroup('custom_highlights_gruvboxmaterial', {})
+-- vim.api.nvim_create_autocmd('ColorScheme', {
+--   group = grpid,
+--   pattern = 'gruvbox-material',
+--   command = -- floating popups
+--   -- 'hi NormalFloat guibg=#282828 |' ..
+--   -- 'hi FloatBorder guibg=#282828'
+-- })
+
+
 vim.cmd [[colorscheme gruvbox-material]]
 
 -- [[ Basic Keymaps ]]
@@ -555,7 +577,7 @@ require('telescope').setup {
   },
   defaults = {
     color_devicons = true,
-    border = true,
+    -- border = true,
     selection_caret = "» ",
     initial_mode = "insert",
     selection_strategy = "reset",
@@ -570,19 +592,24 @@ require('telescope').setup {
       vertical = {
         mirror = false,
       },
-      width = 0.95,
-      height = 0.90,
+      width = 0.85,
+      height = 0.80,
       preview_cutoff = 120,
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
-    file_ignore_patterns = { "node_modules" },
+    -- file_ignore_patterns = { "node_modules" },
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
     -- path_display = { "truncate = 3" },
-    borderchars = {
-      prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
-      results = { " " },
-      preview = { " " },
-    },
+    -- border = {
+    --   prompt = { 1, 1, 1, 1 },
+    --   results = { 1, 1, 1, 1 },
+    --   preview = { 1, 1, 1, 1 },
+    -- },
+    -- borderchars = {
+    --   prompt = { " ", " ", "─", "│", "│", " ", "─", "└" },
+    --   results = { "─", " ", " ", "│", "┌", "─", " ", "│" },
+    --   preview = { "─", "│", "─", "│", "┬", "┐", "┘", "┴" },
+    -- },
     winblend = 0,
     mappings = {
       i = {
@@ -1098,11 +1125,11 @@ vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     previewer = false,
-    borderchars = {
-      prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
-      results = { " " },
-      preview = { " " },
-    },
+    -- borderchars = {
+    --   prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+    --   results = { " " },
+    --   preview = { " " },
+    -- },
 
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
@@ -1149,3 +1176,12 @@ vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
 vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
 
 vim.keymap.set({ "n", "x" }, "ys", ":YankyRingHistory<CR>")
+
+
+
+-- vim.cmd [[
+--   hi TelescopeBorder guibg=#1b1b1b
+--   hi TelescopePromptNormal guibg=#1b1b1b
+--   hi TelescopeResultsNormal guibg=#1b1b1b
+--   hi TelescopePreviewNormal guibg=#1b1b1b
+-- ]]
