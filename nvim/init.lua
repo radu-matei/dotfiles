@@ -1,69 +1,84 @@
 -- Set leader to space
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader        = ' '
+vim.g.maplocalleader   = ' '
 
 -- Enable relative line numbers
 vim.opt.relativenumber = true
 
 -- Highlight current cursor line
-vim.o.cursorline = true
+vim.o.cursorline       = true
+
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch    = false
 -- Enable incremental searching
 vim.opt.incsearch = true
 
 -- Make line numbers default
-vim.wo.number = true
+vim.wo.number     = true
 
 -- Enable mouse mode
-vim.o.mouse = 'a'
+vim.o.mouse       = 'a'
 
 -- Start with dark background.
 -- If using a theme with a supported light background, using dark-notify
 -- can automatically switch the theme to match the OS mode
-vim.o.background = "dark"
+vim.o.background  = "dark"
 
 -- Sync clipboard between OS and Neovim.
-vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard   = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
 
+
 -- Save undo history
 vim.o.undofile = true
 
+
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
-vim.o.smartcase = true
+vim.o.smartcase  = true
+
 
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
+
 
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
+
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
+
 -- Set colorscheme options
-vim.o.termguicolors = true
-vim.g.gruvbox_material_background = 'hard'
-vim.g.gruvbox_material_foreground = 'original'
+vim.o.termguicolors                              = true
+vim.g.gruvbox_material_background                = 'hard'
+vim.g.gruvbox_material_foreground                = 'original'
 -- vim.g.gruvbox_material_foreground = 'mix'
-vim.g.gruvbox_material_cursor = 'orange'
+vim.g.gruvbox_material_cursor                    = 'orange'
 -- vim.g.gruvbox_material_dim_inactive_windows = 1
-vim.g.gruvbox_material_sign_column_background = 'grey'
+vim.g.gruvbox_material_visual                    = 'red background'
 vim.g.gruvbox_material_menu_selection_background = 'yellow'
-vim.g.gruvbox_material_float_style = 'dim'
+vim.g.gruvbox_material_sign_column_background    = 'grey'
+vim.g.gruvbox_material_float_style               = 'dim'
+vim.g.gruvbox_material_enable_bold               = 1
+vim.g.gruvbox_material_spell_foreground          = 'colored'
+vim.g.gruvbox_material_ui_contrast               = 'high'
+-- vim.g.gruvbox_material_diagnostic_text_highlight  = 1
+vim.g.gruvbox_material_diagnostic_virtual_text   = 'highlighted'
+vim.g.gruvbox_material_statusline_style          = 'original'
+
 
 -- Folding options
-vim.opt.foldcolumn = "0"
-vim.opt.foldlevel = 99
+vim.opt.foldcolumn     = "0"
+vim.opt.foldlevel      = 99
 vim.opt.foldlevelstart = 99
-vim.opt.foldenable = true
-vim.opt.scrolloff = 8
+vim.opt.foldenable     = true
+vim.opt.scrolloff      = 8
 
 -- Basic Keymaps
 
@@ -101,6 +116,17 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
+
+-- Change the background mode based on the output of `dark-notify`
+local function change_background()
+  local m = vim.fn.system("dark-notify -e")
+  m = m:gsub("%s+", "") -- trim whitespace
+  if m == "dark" then
+    vim.o.background = "dark"
+  else
+    vim.o.background = "light"
+  end
+end
 
 require('lazy').setup({
   -- Git related plugins
@@ -193,7 +219,7 @@ require('lazy').setup({
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',        opts = {} },
+  { 'numToStr/Comment.nvim',         lazy = true, opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -222,12 +248,18 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
-  { 'mrjones2014/smart-splits.nvim' },
+  { 'mrjones2014/smart-splits.nvim', lazy = true },
   {
     'declancm/maximize.nvim',
     config = function() require('maximize').setup() end
   },
-  { 'sainnhe/gruvbox-material' },
+  {
+    'sainnhe/gruvbox-material',
+    priority = 1000,
+    config = function()
+      change_background()
+    end
+  },
   {
     'akinsho/bufferline.nvim',
     version = "*",
@@ -236,6 +268,7 @@ require('lazy').setup({
   },
   {
     "NeogitOrg/neogit",
+    lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",         -- required
       "nvim-telescope/telescope.nvim", -- optional
@@ -263,76 +296,13 @@ require('lazy').setup({
     end,
   },
   -- Find and replace
-  { 'nvim-pack/nvim-spectre' },
-  -- Noice, but only used for styling the command line
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      cmdline = {
-        enabled = true,   -- enables the Noice cmdline UI
-        view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
-        opts = {},        -- global options for the cmdline. See section on views
-        ---@type table<string, CmdlineFormat>
-        format = {
-          -- conceal: (default=true) This will hide the text in the cmdline that matches the pattern.
-          -- view: (default is cmdline view)
-          -- opts: any options passed to the view
-          -- icon_hl_group: optional hl_group for the icon
-          -- title: set to anything or empty string to hide
-          cmdline = { pattern = "^:", icon = "", lang = "vim" },
-          search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
-          search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
-          filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
-          lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
-          help = { pattern = "^:%s*he?l?p?%s+", icon = "󰞋" },
-          input = {}, -- Used by input()
-          -- lua = false, -- to disable a format, set to `false`
-        },
-      },
-      messages = {
-        enabled = false,
-      },
-      popupmenu = {
-        enabled = false, -- enables the Noice popupmenu UI
-      },
-      -- You can add any custom commands below that will be available with `:Noice command`
-      ---@type table<string, NoiceCommand>
-      notify = {
-        enabled = false,
-      },
-      lsp = {
-        progress = {
-          enabled = false,
-        },
-        hover = {
-          enabled = false,
-        },
-        signature = {
-          enabled = false,
-        },
-        message = {
-          enabled = false,
-        },
-      },
-      health = {
-        checker = false,
-      },
-    },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-    }
-  },
+  { 'nvim-pack/nvim-spectre',                 lazy = true },
   -- Nice UI selector based on Telescope (used for LSP code actions)
   { 'nvim-telescope/telescope-ui-select.nvim' },
   -- Error and warning list
   {
     'folke/trouble.nvim',
+    lazy = true,
     requires = 'nvim-tree/nvim-web-devicons',
     config = function()
       require(
@@ -473,6 +443,7 @@ require('lazy').setup({
   -- GitHub PR review plugin
   {
     'pwntester/octo.nvim',
+    lazy = true,
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
@@ -497,6 +468,7 @@ require('lazy').setup({
   },
   {
     "aaronhallaert/advanced-git-search.nvim",
+    lazy = true,
     config = function()
       -- optional: setup telescope before loading the extension
       require("telescope").setup {
@@ -611,7 +583,6 @@ require("telescope").load_extension("fzf")
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("undo")
-require("telescope").load_extension("noice")
 
 -- Telescope keymaps
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
