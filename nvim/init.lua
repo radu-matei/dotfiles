@@ -121,10 +121,10 @@ vim.opt.rtp:prepend(lazypath)
 local function change_background()
   local m = vim.fn.system("dark-notify -e")
   m = m:gsub("%s+", "") -- trim whitespace
-  if m == "dark" then
-    vim.o.background = "dark"
-  else
+  if m == "light" then
     vim.o.background = "light"
+  else
+    vim.o.background = "dark"
   end
 end
 
@@ -504,7 +504,7 @@ require('lazy').setup({
 -- Dark Notify will change the background to match the OS theme.
 require('dark_notify').run()
 -- Move.nvim
-require('move').setup({})
+-- require('move').setup({})
 -- Indent blank lines
 require("ibl").setup {
   indent = { highlight = { "Whitespace", "NonText" }, char = "┊" },
