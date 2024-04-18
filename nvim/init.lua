@@ -9,8 +9,9 @@ vim.opt.relativenumber = true
 vim.o.cursorline       = true
 
 
--- Set highlight on search
-vim.o.hlsearch    = false
+-- Set highlight on search and clear on <Esc>
+vim.o.hlsearch = true
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Enable incremental searching
 vim.opt.incsearch = true
 
