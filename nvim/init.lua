@@ -323,7 +323,12 @@ require('lazy').setup({
         config = function() require("bufferline").setup({}) end
     },
     -- Move lines and blocks
-    { 'fedepujol/move.nvim' },
+    {
+        'fedepujol/move.nvim',
+        config = function()
+            require('move').setup({})
+        end
+    },
     -- Display inlay hints
     {
         'simrat39/inlay-hints.nvim',
@@ -504,8 +509,6 @@ require('lazy').setup({
 
 -- Dark Notify will change the background to match the OS theme.
 require('dark_notify').run()
--- Move.nvim
--- require('move').setup({})
 -- Indent blank lines
 require("ibl").setup {
     indent = { highlight = { "Whitespace", "NonText" }, char = "┊" },
@@ -1044,6 +1047,28 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         update_in_insert = true,
     }
 )
+
+-- vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
+-- vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
+
+local border = {
+    { "╭", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╮", "FloatBorder" },
+    { "│", "FloatBorder" },
+    { "╯", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╰", "FloatBorder" },
+    { "│", "FloatBorder" },
+}
+
+-- To instead override globally
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or border
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
 
 vim.cmd [[ set cmdheight=0 ]]
 vim.cmd [[ set winbar+=%{%v:lua.require'nvim-navic'.get_location()%} ]]
