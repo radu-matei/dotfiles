@@ -63,7 +63,7 @@ vim.g.gruvbox_material_foreground                = 'original'
 vim.g.gruvbox_material_cursor                    = 'orange'
 vim.g.gruvbox_material_dim_inactive_windows      = 1
 vim.g.gruvbox_material_visual                    = 'red background'
-vim.g.gruvbox_material_menu_selection_background = 'yellow'
+vim.g.gruvbox_material_menu_selection_background = 'orange'
 vim.g.gruvbox_material_sign_column_background    = 'grey'
 vim.g.gruvbox_material_float_style               = 'dim'
 vim.g.gruvbox_material_enable_bold               = 1
@@ -886,8 +886,24 @@ cmp.setup {
 
     -- Comment the completion and documentation fields to remove borders
     window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            side_padding = 0
+        },
+        documentation = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            scrollbar = "║",
+            max_width = 80,
+            max_height = 18,
+        }
+    },
+    view = {
+        entries = {
+            follow_cursor = false,
+        },
+        docs = {
+            auto_open = true,
+        }
     },
     mapping = cmp.mapping.preset.insert {
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -922,7 +938,13 @@ cmp.setup {
     formatting = {
         format = function(entry, vim_item)
             -- Kind icons
-            vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
+            -- This concatenates the icons with the name of the item kind
+            vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
+            -- The type information is usually too noisy to display.
+            -- This is relying on the documentation floating window, hover, and
+            -- the signature help for more information, not on the completion menu.
+            vim_item.menu = nil
+
 
             return vim_item
         end,
