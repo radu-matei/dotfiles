@@ -303,11 +303,9 @@ require('lazy').setup({
     -- Error and warning list
     {
         'folke/trouble.nvim',
-        lazy = true,
         requires = 'nvim-tree/nvim-web-devicons',
         config = function()
-            require(
-                'trouble').setup()
+            require('trouble').setup()
         end
     },
     -- File browser plugin, based on Telescope
@@ -1144,6 +1142,8 @@ vim.keymap.set('n', '<leader>u', '<Cmd>Telescope undo<CR>', { desc = "[U]ndo tre
 vim.keymap.set('n', '<leader>gg', '<Cmd>Neogit kind=auto<CR>', { desc = 'Open Neogit' })
 -- Map jk to Escape
 vim.keymap.set('i', 'jk', '<Esc>')
+
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
 
 -- Move lines and blocks
 local opts = { noremap = true, silent = true }
