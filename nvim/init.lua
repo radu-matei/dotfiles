@@ -463,6 +463,7 @@ require('lazy').setup({
             })
         end
     },
+    { "almo7aya/openingh.nvim" },
     -- Better yanking support
     {
         "gbprod/yanky.nvim",
