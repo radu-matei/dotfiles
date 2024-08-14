@@ -71,7 +71,7 @@ vim.g.gruvbox_material_spell_foreground          = 'colored'
 vim.g.gruvbox_material_ui_contrast               = 'high'
 -- vim.g.gruvbox_material_diagnostic_text_highlight  = 1
 vim.g.gruvbox_material_diagnostic_virtual_text   = 'highlighted'
-vim.g.gruvbox_material_statusline_style          = 'original'
+vim.g.gruvbox_material_statusline_style          = 'mix'
 
 
 -- Folding options
@@ -79,7 +79,7 @@ vim.opt.foldcolumn     = "0"
 vim.opt.foldlevel      = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable     = true
-vim.opt.scrolloff      = 8
+vim.opt.scrolloff      = 10
 
 -- Basic Keymaps
 
@@ -447,7 +447,6 @@ require('lazy').setup({
     -- GitHub PR review plugin
     {
         'pwntester/octo.nvim',
-        lazy = true,
         requires = {
             'nvim-lua/plenary.nvim',
             'nvim-telescope/telescope.nvim',
@@ -459,6 +458,24 @@ require('lazy').setup({
                     projects_v2 = true,
                 }
             })
+        end
+    },
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({
+                suggestion = { enabled = false },
+                panel = { enabled = false },
+            })
+        end,
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+        config = function()
+            require("copilot_cmp").setup()
         end
     },
     -- Better yanking support
@@ -868,6 +885,7 @@ local kind_icons = {
     Event = "",
     Operator = "󰆕",
     TypeParameter = "",
+    Copilot = "",
 }
 
 local luasnip = require 'luasnip'
@@ -932,6 +950,7 @@ cmp.setup {
     },
     sources = {
         { name = 'nvim_lsp' },
+        { name = "copilot", group_index = 2 },
     },
     formatting = {
         format = function(entry, vim_item)

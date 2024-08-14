@@ -28,12 +28,12 @@ disabled = true
 # style = 'bold dimmed green'
 
 [git_metrics]
-disabled = false
+disabled = true
 
 [git_status]
-ahead = '⇡{count}'
-diverged = '⇕⇡{ahead_count}⇣{behind_count}'
-behind = '⇣{count}'
+# ahead = '⇡{count}'
+# diverged = '⇕⇡{ahead_count}⇣{behind_count}'
+# behind = '⇣{count}'
 
 [aws]
 symbol = "  "
@@ -88,8 +88,8 @@ symbol = " "
 symbol = " "
 
 [kubernetes]
-disabled = false
-# disabled = true
+# disabled = false
+disabled = true
 
 
 [lua]
