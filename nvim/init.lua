@@ -1212,3 +1212,6 @@ vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search(
 
 -- Use the Gruvbox material color scheme
 vim.cmd [[colorscheme gruvbox-material]]
+
+-- Disable Copilot by default
+vim.cmd [[:Copilot disable]]

@@ -2,11 +2,9 @@ local wezterm = require 'wezterm'
 
 function Scheme_for_appearance(appearance)
 	if appearance:find 'Dark' then
-		-- return 'Gruvbox dark, hard (base16)'
-		return 'Gruvbox Dark (Gogh)'
+		return 'GruvboxDarkHard'
 	else
 		return 'Gruvbox (Gogh)'
-		-- return 'Gruvbox light, hard (base16)'
 	end
 end
 
