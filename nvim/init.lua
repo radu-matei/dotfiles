@@ -460,6 +460,7 @@ require('lazy').setup({
             })
         end
     },
+    { "almo7aya/openingh.nvim" },
     {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
