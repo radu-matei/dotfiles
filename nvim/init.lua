@@ -203,7 +203,8 @@ require('lazy').setup({
         opts = {
             options = {
                 icons_enabled = false,
-                theme = 'gruvbox-material',
+                -- theme = 'gruvbox-material',
+                theme = 'kanagawa',
                 component_separators = '|',
                 section_separators = '',
             },
@@ -261,6 +262,9 @@ require('lazy').setup({
             change_background()
         end
     },
+    { 'rebelot/kanagawa.nvim' },
+    { "yorumicolors/yorumi.nvim" },
+    { 'shaunsingh/nord.nvim' },
     {
         'akinsho/bufferline.nvim',
         version = "*",
@@ -992,10 +996,37 @@ cmp.setup.cmdline('/', {
     }
 })
 
+require('kanagawa').setup({
+    compile = false,  -- enable compiling the colorscheme
+    undercurl = true, -- enable undercurls
+    commentStyle = { italic = true },
+    functionStyle = {},
+    keywordStyle = { italic = true },
+    statementStyle = { bold = true },
+    typeStyle = {},
+    transparent = false,   -- do not set background color
+    dimInactive = true,    -- dim inactive window `:h hl-NormalNC`
+    terminalColors = true, -- define vim.g.terminal_color_{0,17}
+    colors = {             -- add/modify theme and palette colors
+        palette = {},
+        theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+    },
+    overrides = function(colors) -- add/modify highlights
+        return {}
+    end,
+    theme = "wave",    -- Load "wave" theme when 'background' option is not set
+    background = {     -- map the value of 'background' option to a theme
+        dark = "wave", -- try "dragon" !
+        light = "wave"
+    },
+})
+
+
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        theme = 'gruvbox-material',
+        -- theme = 'gruvbox-material',
+        theme = 'kanagawa',
         disabled_filetypes = {}
     },
     sections = {
@@ -1089,6 +1120,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 -- vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
+vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=NONE]]
 -- vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
 
 local border = {
@@ -1212,7 +1244,9 @@ vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search(
 })
 
 -- Use the Gruvbox material color scheme
-vim.cmd [[colorscheme gruvbox-material]]
+-- vim.cmd [[colorscheme gruvbox-material]]
+vim.cmd [[colorscheme kanagawa]]
+-- vim.cmd [[colorscheme yorumi]]
 
 -- Disable Copilot by default
 vim.cmd [[:Copilot disable]]

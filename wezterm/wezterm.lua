@@ -2,20 +2,23 @@ local wezterm = require 'wezterm'
 
 function Scheme_for_appearance(appearance)
 	if appearance:find 'Dark' then
-		return 'GruvboxDarkHard'
+		-- return 'GruvboxDarkHard'
+		return 'Kanagawa (Gogh)'
 	else
-		return 'Gruvbox (Gogh)'
+		-- return 'Gruvbox (Gogh)'
+		return 'Kanagawa (Gogh)'
 	end
 end
 
 local config = wezterm.config_builder()
 
 config.font = wezterm.font_with_fallback {
+	{ family = 'Iosevka Term Curly',      weight = 'Medium' },
 	{ family = 'DM Mono',                 weight = 'Medium' },
+	{ family = 'Geist Mono',              weight = 'Medium' },
+	{ family = 'Iosevka Term SS04',       weight = 'Medium' },
 	{ family = 'SF Mono',                 weight = 'Medium' },
 	{ family = 'FiraCode Nerd Font Mono', weight = 'Medium' },
-	{ family = 'Iosevka Term SS04',       weight = 'Medium' },
-	{ family = 'Iosevka Term Curly',      weight = 'Medium' },
 }
 
 config.line_height = 1.08
