@@ -73,6 +73,13 @@ vim.g.gruvbox_material_ui_contrast               = 'high'
 vim.g.gruvbox_material_diagnostic_virtual_text   = 'highlighted'
 vim.g.gruvbox_material_statusline_style          = 'mix'
 
+-- XCodeDarkHC settings
+vim.g.xcodedarkhc_emph_funcs                     = 0
+vim.g.xcodedarkhc_emph_idents                    = 1
+vim.g.xcodedarkhc_match_paren_style              = 0
+vim.g.xcodedarkhc_dim_punctuation                = 1
+vim.g.xcodedarkhc_green_comments                 = 1
+
 
 -- Folding options
 vim.opt.foldcolumn     = "0"
@@ -204,7 +211,7 @@ require('lazy').setup({
             options = {
                 icons_enabled = false,
                 -- theme = 'gruvbox-material',
-                theme = 'kanagawa',
+                theme = 'base16',
                 component_separators = '|',
                 section_separators = '',
             },
@@ -255,14 +262,16 @@ require('lazy').setup({
         'declancm/maximize.nvim',
         config = function() require('maximize').setup() end
     },
-    {
-        'radu-matei/gruvbox-material',
-        priority = 1000,
-        config = function()
-            change_background()
-        end
-    },
+    -- {
+    --     'radu-matei/gruvbox-material',
+    --     priority = 1000,
+    --     config = function()
+    --         change_background()
+    --     end
+    -- },
+    { 'Hoffs/omnisharp-extended-lsp.nvim' },
     { 'rebelot/kanagawa.nvim' },
+    { 'lunacookies/vim-colors-xcode' },
     { "yorumicolors/yorumi.nvim" },
     { 'shaunsingh/nord.nvim' },
     {
@@ -347,7 +356,8 @@ require('lazy').setup({
             require('lsp_signature').setup({
                 floating_window = true,
                 handler_opts = {
-                    border = "rounded"
+                    -- border = "rounded"
+                    border = "none"
                 },
                 hint_prefix = '',
                 max_height = 30,
@@ -360,6 +370,7 @@ require('lazy').setup({
         end
     },
     { 'rust-lang/rust.vim' },
+    { 'mbbill/undotree' },
     {
         'folke/lsp-colors.nvim',
         config = function()
@@ -449,21 +460,21 @@ require('lazy').setup({
         end
     },
     -- GitHub PR review plugin
-    {
-        'pwntester/octo.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim',
-            'nvim-telescope/telescope.nvim',
-            'nvim-tree/nvim-web-devicons',
-        },
-        config = function()
-            require "octo".setup({
-                suppress_missing_scope = {
-                    projects_v2 = true,
-                }
-            })
-        end
-    },
+    -- {
+    --     'pwntester/octo.nvim',
+    --     requires = {
+    --         'nvim-lua/plenary.nvim',
+    --         'nvim-telescope/telescope.nvim',
+    --         'nvim-tree/nvim-web-devicons',
+    --     },
+    --     config = function()
+    --         require "octo".setup({
+    --             suppress_missing_scope = {
+    --                 projects_v2 = true,
+    --             }
+    --         })
+    --     end
+    -- },
     { "almo7aya/openingh.nvim" },
     {
         "zbirenbaum/copilot.lua",
@@ -570,6 +581,7 @@ require('telescope').setup {
     defaults = {
         color_devicons = true,
         border = true,
+        -- border = false,
         selection_caret = "» ",
         initial_mode = "insert",
         selection_strategy = "reset",
@@ -908,11 +920,11 @@ cmp.setup {
     -- Comment the completion and documentation fields to remove borders
     window = {
         completion = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
             side_padding = 0
         },
         documentation = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            -- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
             scrollbar = "║",
             max_width = 80,
             max_height = 18,
@@ -999,9 +1011,9 @@ cmp.setup.cmdline('/', {
 require('kanagawa').setup({
     compile = false,  -- enable compiling the colorscheme
     undercurl = true, -- enable undercurls
-    commentStyle = { italic = true },
+    commentStyle = { italic = false },
     functionStyle = {},
-    keywordStyle = { italic = true },
+    keywordStyle = { italic = false },
     statementStyle = { bold = true },
     typeStyle = {},
     transparent = false,   -- do not set background color
@@ -1026,7 +1038,7 @@ require('lualine').setup {
     options = {
         icons_enabled = true,
         -- theme = 'gruvbox-material',
-        theme = 'kanagawa',
+        -- theme = 'xcodedarkhc',
         disabled_filetypes = {}
     },
     sections = {
@@ -1120,8 +1132,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 -- vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
-vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=NONE]]
 -- vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
+-- Floating windows without background color works really well with the Xcode theme I'm currently using
+vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=NONE]]
+vim.cmd [[autocmd! ColorScheme * highlight Float guibg=NONE]]
 
 local border = {
     { "╭", "FloatBorder" },
@@ -1138,7 +1152,7 @@ local border = {
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     opts = opts or {}
-    opts.border = opts.border or border
+    opts.border = opts.border
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
@@ -1189,7 +1203,7 @@ vim.api.nvim_set_keymap(
 -- Keymaps for Trouble
 vim.keymap.set('n', '<leader>tt', '<Cmd>TroubleToggle<CR> ', { desc = '[T]oggle [T]rouble list' })
 -- Undo
-vim.keymap.set('n', '<leader>u', '<Cmd>Telescope undo<CR>', { desc = "[U]ndo tree" })
+vim.keymap.set('n', '<leader>u', '<Cmd>UndotreeToggle<CR>', { desc = "[U]ndo tree" })
 -- Toggle Neogit
 vim.keymap.set('n', '<leader>gg', '<Cmd>Neogit kind=auto<CR>', { desc = 'Open Neogit' })
 -- Map jk to Escape
@@ -1243,10 +1257,22 @@ vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search(
     desc = "Search on current file"
 })
 
--- Use the Gruvbox material color scheme
--- vim.cmd [[colorscheme gruvbox-material]]
-vim.cmd [[colorscheme kanagawa]]
--- vim.cmd [[colorscheme yorumi]]
+vim.cmd [[colorscheme xcodedarkhc]]
 
 -- Disable Copilot by default
 vim.cmd [[:Copilot disable]]
+
+
+-- Enable italics for comments and inlay hints
+local group = vim.api.nvim_create_augroup("vim-colors-xcode", { clear = true })
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = group,
+    pattern = "*",
+    command = "hi Comment cterm=italic gui=italic",
+})
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = group,
+    pattern = "*",
+    command = "hi SpecialComment cterm=italic gui=italic",
+})
