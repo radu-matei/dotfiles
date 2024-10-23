@@ -1,9 +1,8 @@
 command_timeout = 300
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-# success_symbol = '[](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
-# error_symbol = '[](red)'
+[character]
+success_symbol = '[ ](bold green)'
+error_symbol = '[ ](bold red)'
 [username]
 style_user = 'white bold'
 style_root = 'black bold'
@@ -21,19 +20,20 @@ disabled = false
 [gcloud]
 disabled = true
 
-# [memory_usage]
-# disabled = false
-# threshold = -1
-# symbol = ''
-# style = 'bold dimmed green'
+[memory_usage]
+symbol = "󰍛 "
+disabled = false
+threshold = -1
+style = 'bold green'
 
 [git_metrics]
-disabled = true
+disabled = false
 
 [git_status]
-# ahead = '⇡{count}'
-# diverged = '⇕⇡{ahead_count}⇣{behind_count}'
-# behind = '⇣{count}'
+disabled = false
+ahead = '⇡{count}'
+diverged = '⇕⇡{ahead_count}⇣{behind_count}'
+behind = '⇣{count}'
 
 [aws]
 symbol = "  "
@@ -88,15 +88,11 @@ symbol = " "
 symbol = " "
 
 [kubernetes]
-# disabled = false
-disabled = true
+disabled = false
 
 
 [lua]
 symbol = " "
-
-[memory_usage]
-symbol = "󰍛 "
 
 [meson]
 symbol = "󰔷 "

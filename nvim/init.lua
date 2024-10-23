@@ -209,8 +209,7 @@ require('lazy').setup({
         'nvim-lualine/lualine.nvim',
         opts = {
             options = {
-                icons_enabled = false,
-                -- theme = 'gruvbox-material',
+                icons_enabled = true,
                 theme = 'base16',
                 component_separators = '|',
                 section_separators = '',
@@ -226,6 +225,17 @@ require('lazy').setup({
         opts = {
         },
     },
+    {
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    },
+
 
     -- "gc" to comment visual regions/lines
     { 'numToStr/Comment.nvim',         opts = {} },
@@ -369,6 +379,12 @@ require('lazy').setup({
             })
         end
     },
+    -- {
+    --     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    --     config = function()
+    --         require("lsp_lines").setup()
+    --     end,
+    -- },
     { 'rust-lang/rust.vim' },
     { 'mbbill/undotree' },
     {
@@ -460,21 +476,21 @@ require('lazy').setup({
         end
     },
     -- GitHub PR review plugin
-    -- {
-    --     'pwntester/octo.nvim',
-    --     requires = {
-    --         'nvim-lua/plenary.nvim',
-    --         'nvim-telescope/telescope.nvim',
-    --         'nvim-tree/nvim-web-devicons',
-    --     },
-    --     config = function()
-    --         require "octo".setup({
-    --             suppress_missing_scope = {
-    --                 projects_v2 = true,
-    --             }
-    --         })
-    --     end
-    -- },
+    {
+        'pwntester/octo.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope.nvim',
+            'nvim-tree/nvim-web-devicons',
+        },
+        config = function()
+            require "octo".setup({
+                suppress_missing_scope = {
+                    projects_v2 = true,
+                }
+            })
+        end
+    },
     { "almo7aya/openingh.nvim" },
     {
         "zbirenbaum/copilot.lua",
@@ -557,7 +573,7 @@ require('telescope').setup {
             auto_depth = true,
             select_buffer = true,
             grouped = true,
-            respect_gitignore = false,
+            respect_gitignore = true,
             -- collapse_dirs = true,
             initial_mode = "normal",
             -- disables netrw and use telescope-file-browser in its place
@@ -1275,4 +1291,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     group = group,
     pattern = "*",
     command = "hi SpecialComment cterm=italic gui=italic",
+})
+
+vim.diagnostic.config({
+    virtual_text = true,
 })
