@@ -13,15 +13,16 @@ end
 local config = wezterm.config_builder()
 
 config.font = wezterm.font_with_fallback {
-	{ family = 'Iosevka Term Curly',      weight = 'Medium' },
 	{ family = 'DM Mono',                 weight = 'Medium' },
 	{ family = 'Geist Mono',              weight = 'Medium' },
+	{ family = 'Iosevka Term Curly',      weight = 'Medium' },
+	{ family = 'Iosevka RMono High',      weight = 'Medium' },
 	{ family = 'Iosevka Term SS04',       weight = 'Medium' },
 	{ family = 'SF Mono',                 weight = 'Medium' },
 	{ family = 'FiraCode Nerd Font Mono', weight = 'Medium' },
 }
 
-config.line_height = 1.08
+config.line_height = 1.17
 config.cell_width = 1.00
 
 config.color_scheme = Scheme_for_appearance(wezterm.gui.get_appearance())
