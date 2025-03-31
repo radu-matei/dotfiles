@@ -203,7 +203,8 @@ require('lazy').setup({
         opts = {
             options = {
                 icons_enabled = false,
-                theme = 'gruvbox-material',
+                -- theme = 'gruvbox-material',
+                theme = 'oh-lucy',
                 component_separators = '|',
                 section_separators = '',
             },
@@ -260,6 +261,9 @@ require('lazy').setup({
         config = function()
             change_background()
         end
+    },
+    {
+        'Yazeed1s/oh-lucy.nvim'
     },
     {
         'akinsho/bufferline.nvim',
@@ -995,7 +999,7 @@ cmp.setup.cmdline('/', {
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        theme = 'gruvbox-material',
+        theme = 'oh-lucy',
         disabled_filetypes = {}
     },
     sections = {
@@ -1212,7 +1216,8 @@ vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search(
 })
 
 -- Use the Gruvbox material color scheme
-vim.cmd [[colorscheme gruvbox-material]]
+-- vim.cmd [[colorscheme gruvbox-material]]
+vim.cmd [[colorscheme oh-lucy]]
 
 -- Disable Copilot by default
 vim.cmd [[:Copilot disable]]
