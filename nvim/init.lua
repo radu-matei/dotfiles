@@ -204,7 +204,7 @@ require('lazy').setup({
             options = {
                 icons_enabled = false,
                 -- theme = 'gruvbox-material',
-                theme = 'oh-lucy',
+                theme = 'auto',
                 component_separators = '|',
                 section_separators = '',
             },
@@ -274,6 +274,7 @@ require('lazy').setup({
     {
         "NeogitOrg/neogit",
         lazy = true,
+        tag = 'v0.0.1',
         dependencies = {
             "nvim-lua/plenary.nvim",         -- required
             "nvim-telescope/telescope.nvim", -- optional
@@ -625,7 +626,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
     require('nvim-treesitter.configs').setup {
         -- Add languages to be installed here that you want installed for treesitter
-        ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vim' },
+        ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vim', 'wit' },
 
         -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
         auto_install = false,
@@ -1080,7 +1081,7 @@ vim.cmd [[set guicursor=n-v-c-i:block]]
 vim.api.nvim_set_keymap('i', '<S-Del>', '<Nop>', { noremap = true, silent = true })
 
 -- Don't try to autocomplete in Telescope input
-vim.cmd([[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]])
+-- vim.cmd([[autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)]])
 -- Autofmt
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 -- Remove ~ from the end of buffer
